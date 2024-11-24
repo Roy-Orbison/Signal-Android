@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
+import com.google.android.material.timepicker.MaterialTimePicker;
+
 import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.dependencies.AppDependencies;
@@ -61,6 +63,7 @@ public final class SettingsValues extends SignalStoreValues {
   public static final  String CALL_RINGTONE                           = "settings.call.ringtone";
   public static final  String CALL_VIBRATE_ENABLED                    = "settings.call.vibrate.enabled";
   public static final  String NOTIFY_WHEN_CONTACT_JOINS_SIGNAL        = "settings.notify.when.contact.joins.signal";
+  public static final  String TIMEPICKER_INPUT_MODE                   = "settings.timepicker.input.mode";
   private static final String UNIVERSAL_EXPIRE_TIMER                  = "settings.universal.expire.timer";
   private static final String SENT_MEDIA_QUALITY                      = "settings.sentMediaQuality";
   private static final String CENSORSHIP_CIRCUMVENTION_ENABLED        = "settings.censorshipCircumventionEnabled";
@@ -73,8 +76,9 @@ public final class SettingsValues extends SignalStoreValues {
   private static final String SCREEN_LOCK_ENABLED                     = "settings.screen.lock.enabled";
   private static final String SCREEN_LOCK_TIMEOUT                     = "settings.screen.lock.timeout";
 
-  public static final int BACKUP_DEFAULT_HOUR   = 2;
-  public static final int BACKUP_DEFAULT_MINUTE = 0;
+  public static final int BACKUP_DEFAULT_HOUR           = 2;
+  public static final int BACKUP_DEFAULT_MINUTE         = 0;
+  public static final int TIMEPICKER_INPUT_DEFAULT_MODE = MaterialTimePicker.INPUT_MODE_KEYBOARD;
 
   private final SingleLiveEvent<String> onConfigurationSettingChanged = new SingleLiveEvent<>();
 
@@ -523,6 +527,14 @@ public final class SettingsValues extends SignalStoreValues {
 
   public long getScreenLockTimeout() {
     return getLong(SCREEN_LOCK_TIMEOUT, 0);
+  }
+
+  public int getTimePickerMode() {
+    return getInteger(TIMEPICKER_INPUT_MODE, TIMEPICKER_INPUT_DEFAULT_MODE);
+  }
+
+  public void setTimePickerMode(int mode) {
+    putInteger(TIMEPICKER_INPUT_MODE, mode);
   }
 
   private @Nullable Uri getUri(@NonNull String key) {

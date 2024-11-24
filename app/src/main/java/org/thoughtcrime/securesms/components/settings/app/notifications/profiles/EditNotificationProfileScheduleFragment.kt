@@ -23,6 +23,7 @@ import org.signal.core.util.concurrent.LifecycleDisposable
 import org.thoughtcrime.securesms.LoggingFragment
 import org.thoughtcrime.securesms.R
 import org.thoughtcrime.securesms.components.settings.app.notifications.profiles.EditNotificationProfileScheduleViewModel.SaveScheduleResult
+import org.thoughtcrime.securesms.keyvalue.SignalStore
 import org.thoughtcrime.securesms.util.ViewUtil
 import org.thoughtcrime.securesms.util.formatHours
 import org.thoughtcrime.securesms.util.navigation.safeNavigate
@@ -147,12 +148,14 @@ class EditNotificationProfileScheduleFragment : LoggingFragment(R.layout.fragmen
       .setTimeFormat(timeFormat)
       .setHour(time.hour)
       .setMinute(time.minute)
+      .setInputMode(SignalStore.settings().getTimePickerMode())
       .setTitleText(if (isStart) R.string.EditNotificationProfileSchedule__set_start_time else R.string.EditNotificationProfileSchedule__set_end_time)
       .build()
 
     timePickerFragment.addOnDismissListener {
       timePickerFragment.clearOnDismissListeners()
       timePickerFragment.clearOnPositiveButtonClickListeners()
+      SignalStore.settings().setTimePickerMode(timePickerFragment.getInputMode())
     }
 
     timePickerFragment.addOnPositiveButtonClickListener {

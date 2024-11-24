@@ -16,6 +16,7 @@ import org.thoughtcrime.securesms.R
 import org.thoughtcrime.securesms.components.FixedRoundedCornerBottomSheetDialogFragment
 import org.thoughtcrime.securesms.components.ViewBinderDelegate
 import org.thoughtcrime.securesms.databinding.ScheduleMessageTimePickerBottomSheetBinding
+import org.thoughtcrime.securesms.keyvalue.SignalStore
 import org.thoughtcrime.securesms.util.BottomSheetUtil
 import org.thoughtcrime.securesms.util.DateUtils
 import org.thoughtcrime.securesms.util.atMidnight
@@ -133,12 +134,14 @@ class ScheduleMessageTimePickerBottomSheet : FixedRoundedCornerBottomSheetDialog
         .setTimeFormat(timeFormat)
         .setHour(scheduledHour)
         .setMinute(scheduledMinute)
+        .setInputMode(SignalStore.settings().getTimePickerMode())
         .setTitleText(getString(R.string.ScheduleMessageTimePickerBottomSheet__select_time_title))
         .build()
 
       timePickerFragment.addOnDismissListener {
         timePickerFragment.clearOnDismissListeners()
         timePickerFragment.clearOnPositiveButtonClickListeners()
+        SignalStore.settings().setTimePickerMode(timePickerFragment.getInputMode())
       }
 
       timePickerFragment.addOnPositiveButtonClickListener {

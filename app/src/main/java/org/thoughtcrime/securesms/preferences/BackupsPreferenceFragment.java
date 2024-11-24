@@ -264,8 +264,14 @@ public class BackupsPreferenceFragment extends Fragment {
         .setTimeFormat(timeFormat)
         .setHour(SignalStore.settings().getBackupHour())
         .setMinute(SignalStore.settings().getBackupMinute())
+        .setInputMode(SignalStore.settings().getTimePickerMode())
         .setTitleText(R.string.BackupsPreferenceFragment__set_backup_time)
         .build();
+
+    timePickerFragment.addOnDismissListener(v -> {
+      SignalStore.settings().setTimePickerMode(timePickerFragment.getInputMode());
+    });
+
     timePickerFragment.addOnPositiveButtonClickListener(v -> {
       int hour = timePickerFragment.getHour();
       int minute = timePickerFragment.getMinute();
